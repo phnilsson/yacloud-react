@@ -6,35 +6,40 @@ interface LogEntryProps {
 }
 
 function LogEntry({ id }: LogEntryProps) {
-    id = id+1;
+  id = id + 1;
   // const LogEntry: React.FC<LogEntryProps> (props) => {
   const [duration, setDuration] = useState<number>(0);
   const [name, setName] = useState<string>("Loading");
   const [dataLoaded, setDataLoaded] = useState(false);
-  let url = "http://yacloudpython.traininglog.hemsida.eu/api/getLogEntry/" + String(id);
+  let url =
+    "http://yacloudpython.traininglog.hemsida.eu/api/getLogEntry/" + String(id);
   let start: Date = new Date();
   let end: Date = new Date();
 
-      useEffect(() => {
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          setName(data.name);
-          start = new Date(data.starttime);
-          end = new Date(data.endtime);
-          let duration_tmp = moment.duration(
-            end.getTime() - start.getTime(),
-            "milliseconds"
-          );
-          console.log("++++");
-          console.log(start);
-          console.log(end);
-          console.log(duration_tmp.asMinutes());
-          console.log("-----")
-          setDataLoaded(true);
-          setDuration(duration_tmp.asMinutes());
-        });
-    });
+  useEffect(() => {
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setName(data.name);
+        start = new Date(data.starttime);
+        end = new Date(data.endtime);
+        let duration_tmp = moment.duration(
+          end.getTime() - start.getTime(),
+          "milliseconds"
+        );
+        console.log("++++");
+        console.log(start);
+        console.log(end);
+        console.log(duration_tmp.asMinutes());
+        console.log("-----");
+        setDataLoaded(true);
+        setDuration(duration_tmp.asMinutes());
+      });
+  });
   return (
     <>
       <b>{name}</b>

@@ -44,7 +44,7 @@ function App() {
             ></TrainingLog>
           )}
           <Button
-            children="Get Traininglog"
+            children="View Traininglog"
             onClick={() => setTrainingLogVisible(true)}
           ></Button>
         </div>
